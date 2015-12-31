@@ -1,0 +1,11 @@
+Sum      start   4000
+first    ldx     zero
+         lda     zero
+loop     add     table,x
+         tix     k30    
+         jlt     loop
+         sta     total
+         resw    1
+zero     word    0
+k30      word    30
+         end     first 

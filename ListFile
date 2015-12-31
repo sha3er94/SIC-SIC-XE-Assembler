@@ -1,0 +1,114 @@
+      1000      TEST     START      1000          
+                    
+      1000     FIRST       STL    RETADR    141039
+                    
+      1003     CLOOP      JSUB     RDREC    48203F
+                    
+      1006                 LDA    LENGTH    00103C
+                    
+      1009                COMP       ONE    281033
+                    
+      100c                 ORG                    
+No previous ORG is found, Please recheck your SRFILE!!!
+      100c                 JEQ    ENDFIL    301015
+                    
+      100f                JSUB     WRREC    482073
+                    
+      1012                   J     CLOOP    3C1003
+                    
+      1015    ENDFIL       LDA   =C'EOF'    00102A
+                    
+      1018                 STA    BUFFER    0C103F
+                    
+      101b                 LDA     THREE    00102D
+                    
+      101e                 STA    LENGTH    0C103C
+                    
+      1021                JSUB     WRREC    482073
+                    
+      1024                 LDL    RETADR    081039
+                    
+      1027                RSUB              4C0000
+                    
+      102a               LTORG                    
+                    
+      102a         *   =C'EOF'              454F46
+                    
+      102d     THREE      WORD         3    000003
+                    
+      1030      ZERO      WORD         0    000000
+                    
+      1033       ONE      WORD         1    000001
+                    
+      1036      FIVE      WORD         5    000005
+                    
+      1039    RETADR      RESW         1          
+                    
+      103c    LENGTH      RESW         1          
+                    
+      103f    BUFFER      RESB      4096          
+                    
+      203f     RDREC       LDX      ZERO    041030
+                    
+      2042                 LDA      ZERO    001030
+                    
+      2045     RLOOP        TD    =X'F3'    E0206F
+                    
+      2048                 JEQ     RLOOP    302045
+                    
+      204b                  RD    =X'F3'    D8206F
+                    
+      204e                COMP      FIVE    281036
+                    
+      2051                 JLT      EXIT    38205D
+                    
+      2054                STCH    BUFFER    54103F
+                    
+      2057                 TIX    MAXLEN    2C2070
+                    
+      205a                 JLT     RLOOP    382045
+                    
+      205a      SARA       EQU THREE-ONE          
+                    
+      205a     FAWZY       EQU THREE+ONE          
+*** undefined operand
+      205d      EXIT      STCH    BUFFER    54103F
+                    
+      2060                 STX    LENGTH    10103C
+                    
+      2063                 LDA    LENGTH    00103C
+                    
+      2066                 ADD       ONE    181033
+                    
+      2069                 STA    LENGTH    0C103C
+                    
+      206c                RSUB              4C0000
+                    
+      206f               LTORG                    
+                    
+      206f         *    =X'F3'                  F3
+                    
+      2070       LEN      WORD      4096    001000
+                    
+      2070    MAXLEN       EQU       LEN          
+                    
+      2073     WRREC       LDX      ZERO    041030
+                    
+      2076     WLOOP        TD    =X'06'    E0208B
+                    
+      2079                 JEQ     WLOOP    302076
+                    
+      207c                LDCH    BUFFER    50103F
+                    
+      207f                  WD    =X'06'    DC208B
+                    
+      2082                 TIX    LENGTH    2C103C
+                    
+      2085                 JLT     WLOOP    382076
+                    
+      2088                RSUB              4C0000
+                    
+      208b                 END     FIRST          
+                    
+      208b         *    =X'06'                  06
+                    

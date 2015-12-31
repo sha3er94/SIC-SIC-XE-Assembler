@@ -1,0 +1,53 @@
+TEST     START   1000
+c        resb    1
+FIRST    STL     RETADR
+CLOOP    JSUB    RDREC
+         LDA     LENGTH
+         COMP    ONE
+         JEQ     ENDFIL       
+         JSUB    WRREC      
+         J       CLOOP          
+ENDFIL   LDA     =*    
+         STA     BUFFER                                          
+         LDA     THREE         
+         STA     LENGTH                                          
+         JSUB    WRREC              
+         LDL     RETADR           
+         RSUB
+         LTORG 
+LEN      RESW    4096
+MAXLEN   EQU     3                                                     
+THREE    WORD    3                                                
+ZERO     WORD    0                                                
+ONE      WORD    1  
+FIVE     WORD    5                            
+RETADR   RESW    1                                                
+LENGTH   RESW    1                                                
+BUFFER   RESB    4096                                                                      
+RDREC    LDX     ZERO          
+         LDA     ZERO        
+RLOOP    TD     =X'F3'   
+         JEQ     RLOOP            
+         RD     =X'F3'
+         COMP    FIVE          
+         JLT     EXIT         
+         STCH    BUFFER
+         ORG      
+         TIX     MAXLEN       
+         JLT     RLOOP     
+EXIT     STCH    BUFFER   
+         STX     LENGTH          
+         LDA     LENGTH
+         ADD     ONE                
+         STA     LENGTH                                          
+         RSUB
+         LTORG                                                                
+WRREC    LDX     ZERO           
+WLOOP    TD     =X'06'           
+         JEQ     WLOOP           
+         LDCH    BUFFER
+         WD     =X'06'       
+         TIX     LENGTH      
+         JLT     WLOOP
+         RSUB
+         END     FIRST
